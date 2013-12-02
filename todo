@@ -1,0 +1,7 @@
+make startup scripts with parameters: port,dbFile,logpath, tempdir
+
+make bundled jar/zip
+
+get spring  json with jsckson to work
+
+configure logging
