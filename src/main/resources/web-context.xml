@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx" 
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+                            http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+                            http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                            http://www.springframework.org/schema/context
+                            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                            http://www.springframework.org/schema/tx
+							http://www.springframework.org/schema/tx/spring-tx.xsd"
+                            >
+
+    <!-- Scans the classpath of this application for @Components to deploy as beans 
+    	Finding the Controllers through this is OK. 
+    	Declaring Services is NOT!!
+     -->
+    <context:component-scan base-package="net.projektfriedhof.recbay.controller" />
+   
+    
+    <!-- Configures the @Controller programming model -->
+    <mvc:annotation-driven/>
+
+    <!-- Forwards requests to the "/" resource to the "home" view -->
+    <mvc:view-controller path="/" view-name="redirect:/index"/>
+
+    <!-- Resolves view names to protected .jsp resources within the 'views/' directory -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    
+    
+    
+    <bean id="reccomendationDao" class="net.projektfriedhof.recbay.dao.impl.ReccomendationDaoImpl"></bean>
+    
+    
+    
+    
+    <!-- 
+    ================= DB SETUP ====================
+    -->
+    
+    <bean id="txManager" depends-on="flyway" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="flyway" class="com.googlecode.flyway.core.Flyway" init-method="migrate">
+		<property name="dataSource" ref="dataSource" />
+		<property name="table" value="schema_history" />
+		<property name="locations" value="sql/flyway" />
+		<property name="encoding" value="UTF-8" />
+		<!-- property name="schemas" value="developement" / -->
+	</bean>
+    <!-- enable the configuration of transactional behavior based on annotations -->
+	<tx:annotation-driven transaction-manager="txManager" />
+    
+    <bean name="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+		<property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver" />
+		<property name="url" value="jdbc:hsqldb:hsql://localhost/ngplus_db" />
+		<property name="username" value="SA" />
+		<property name="password" value="" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="maxActive" value="20" />
+		<property name="maxIdle" value="5" />
+		<property name="minIdle" value="3" />
+		<property name="maxWait" value="10000" />
+		<property name="initialSize" value="5" />
+		<property name="maxAge" value="360000" />
+	</bean>
+    
+    
+</beans>

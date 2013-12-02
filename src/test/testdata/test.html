@@ -1,0 +1,28 @@
+<html>
+......
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" >
+$(document).ready(function(){
+  sendAjax();
+});
+ 
+function sendAjax() {
+ 
+$.ajax({ 
+    url: "http://localhost:8080/recomend", 
+    type: 'POST', 
+    dataType: 'json', 
+    data: '{"uri":"http://dickedinger.xxx","tags":["#doppeld","#handvoll"]}', 
+    contentType: 'application/json',
+    mimeType: 'application/json',
+    success: function(data) { 
+        alert(data.id + " " + data.name)
+    },
+    error:function(data,status,er) { 
+        alert("error: "+data+" status: "+status+" er:"+er);
+    }
+});
+}
+</script>
+......
+</html>
