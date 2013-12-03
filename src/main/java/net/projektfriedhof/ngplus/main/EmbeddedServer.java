@@ -4,7 +4,11 @@ package net.projektfriedhof.ngplus.main;
 import java.io.File;
 import java.net.URL;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
@@ -31,8 +35,14 @@ public class EmbeddedServer {
 
     public void start() {
         server = new Server(port);
-        server.setHandler( getServletHandler() );
-
+        
+        HandlerList handlers = new HandlerList();
+        handlers.addHandler(getStaticResourcesHandler());
+        handlers.addHandler(getServletHandler());
+        
+        server.setHandler( handlers );
+      
+        
         try {
             server.start();
         } catch (Exception e) {
@@ -43,7 +53,22 @@ public class EmbeddedServer {
         log.info("Server started");
     }
 
-    private ServletContextHandler getServletHandler() {
+    /**
+	 * @return
+	 */
+	private Handler getStaticResourcesHandler() {
+		ContextHandler handler = new ContextHandler("/static");
+		
+		ResourceHandler resourceHandler = new ResourceHandler();
+		resourceHandler.setDirectoriesListed(true);
+		resourceHandler.setWelcomeFiles(new String[]{ "index.html" });
+	    resourceHandler.setResourceBase("src/test/testdata/");
+	    
+	    handler.setHandler(resourceHandler);
+		return handler;
+	}
+
+	private Handler getServletHandler() {
         ServletHolder mvcServletHolder = new ServletHolder(MVC_SERVLET_NAME, new DispatcherServlet());
         mvcServletHolder.setInitParameter("contextConfigLocation", "classpath:web-context.xml");
 
@@ -61,7 +86,10 @@ public class EmbeddedServer {
         context.addServlet(mvcServletHolder, "/");
         context.setResourceBase( getBaseUrl() );
 
-        return context;
+        
+        ContextHandler handler = new ContextHandler("/api");
+        handler.setHandler(context);
+		return handler;
     }
 
     public void join() throws InterruptedException {

@@ -9,10 +9,10 @@ $(document).ready(function(){
 function sendAjax() {
  
 $.ajax({ 
-    url: "http://localhost:8080/recomend", 
+    url: "http://localhost:8080/api/recomend", 
     type: 'POST', 
     dataType: 'json', 
-    data: '{"uri":"http://dickedinger.xxx","tags":["#doppeld","#handvoll"]}', 
+    data: '{"uri":"http://dickedinger.xxx","taglist":["#doppeld","#handvoll"]}', 
     contentType: 'application/json',
     mimeType: 'application/json',
     success: function(data) { 
