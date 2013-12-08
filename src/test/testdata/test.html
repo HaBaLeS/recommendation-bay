@@ -9,7 +9,7 @@ $(document).ready(function(){
 function sendAjax() {
  
 $.ajax({ 
-    url: "http://localhost:8080/api/recomend", 
+    url: "/api/recomend", 
     type: 'POST', 
     dataType: 'json', 
     data: '{"uri":"http://dickedinger.xxx","taglist":["#doppeld","#handvoll"]}', 
