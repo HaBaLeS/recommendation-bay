@@ -4,7 +4,7 @@ import net.projektfriedhof.recbay.bean.IncomingRecomendation;
 import net.projektfriedhof.recbay.model.Recomendation;
 
 
-public interface ReccomendationDao {
+public interface RecomendationDao extends GenericBaseDao<Recomendation>{
 
 	Recomendation addRecomendation(IncomingRecomendation rec);
 

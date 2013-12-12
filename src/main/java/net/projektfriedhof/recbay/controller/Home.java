@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import net.projektfriedhof.recbay.dao.ReccomendationDao;
+import net.projektfriedhof.recbay.dao.RecomendationDao;
 import net.projektfriedhof.recbay.model.Recomendation;
 
 import org.springframework.stereotype.Controller;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/index")
 public class Home {
 	
-	@Resource(name="reccomendationDao")
-	ReccomendationDao reccomendationDao;
+	@Resource(name="recomendationDao")
+	RecomendationDao recomendationDao;
 	
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<Recomendation> home() {

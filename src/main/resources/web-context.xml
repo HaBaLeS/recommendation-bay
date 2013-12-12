@@ -35,7 +35,7 @@
     
     
     
-    <bean id="reccomendationDao" class="net.projektfriedhof.recbay.dao.impl.ReccomendationDaoImpl"></bean>
+    <bean id="recomendationDao" class="net.projektfriedhof.recbay.dao.impl.RecomendationDaoImpl"></bean>
     
     
     

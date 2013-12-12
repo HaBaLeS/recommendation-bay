@@ -2,7 +2,7 @@ package net.projektfriedhof.recbay.model;
 
 import java.util.Date;
 
-public class Recomendation {
+public class Recomendation implements DBObject{
 
 	long id;
 	String uri;
