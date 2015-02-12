@@ -2,8 +2,8 @@
 
 <project version="2">
 	<attribs>
-		<attrib name="build">7</attrib>
-		<attrib name="serial">1745</attrib>
+		<attrib name="build">11</attrib>
+		<attrib name="serial">2041</attrib>
 	</attribs>
 	<database>
 		<attribs>
@@ -117,7 +117,7 @@
 		<modsConfig>
 			<SqlGenModule>
 				<pgSql>
-					<output>/tmp/recbay.sql</output>
+					<output>/tmp/recbay3.sql</output>
 					<genDropStmt>Y</genDropStmt>
 					<tablespaces type="l">
 						<list>
@@ -574,7 +574,7 @@
 						<attrib name="onDelete">n</attrib>
 						<attrib name="onUpdate">n</attrib>
 						<attrib name="refTable">0</attrib>
-						<attrib name="type">8</attrib>
+						<attrib name="type">1744</attrib>
 					</attribs>
 					<modsConfig/>
 				</field>
@@ -743,7 +743,7 @@
 						<attrib name="onDelete">n</attrib>
 						<attrib name="onUpdate">n</attrib>
 						<attrib name="refTable">0</attrib>
-						<attrib name="type">8</attrib>
+						<attrib name="type">1744</attrib>
 					</attribs>
 					<modsConfig/>
 				</field>
@@ -864,7 +864,7 @@
 						<attrib name="onDelete">n</attrib>
 						<attrib name="onUpdate">n</attrib>
 						<attrib name="refTable">0</attrib>
-						<attrib name="type">8</attrib>
+						<attrib name="type">1744</attrib>
 					</attribs>
 					<modsConfig/>
 				</field>
@@ -907,7 +907,7 @@
 						<attrib name="comment"/>
 						<attrib name="matchType">s</attrib>
 						<attrib name="refField">0</attrib>
-						<attrib name="name">desc</attrib>
+						<attrib name="name">description</attrib>
 						<attrib name="id">1302</attrib>
 						<attrib name="onDelete">n</attrib>
 						<attrib name="onUpdate">n</attrib>
@@ -985,7 +985,7 @@
 						<attrib name="onDelete">n</attrib>
 						<attrib name="onUpdate">n</attrib>
 						<attrib name="refTable">0</attrib>
-						<attrib name="type">8</attrib>
+						<attrib name="type">1744</attrib>
 					</attribs>
 					<modsConfig/>
 				</field>
@@ -1028,7 +1028,7 @@
 						<attrib name="comment"/>
 						<attrib name="matchType">s</attrib>
 						<attrib name="refField">0</attrib>
-						<attrib name="name">desc</attrib>
+						<attrib name="name">description</attrib>
 						<attrib name="id">1409</attrib>
 						<attrib name="onDelete">n</attrib>
 						<attrib name="onUpdate">n</attrib>
@@ -1421,7 +1421,7 @@
 						<attrib name="onDelete">n</attrib>
 						<attrib name="onUpdate">n</attrib>
 						<attrib name="refTable">0</attrib>
-						<attrib name="type">8</attrib>
+						<attrib name="type">1744</attrib>
 					</attribs>
 					<modsConfig/>
 				</field>
