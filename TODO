@@ -1,0 +1,15 @@
+
+Unterscheide Content Type, Medium/Category, Tags besser
+
+Eine Rec hat einen Contentype
+Eine Rec hat eine Hauptkategory
+Eine Rec hat belibige Tags
+
+
+Keien Kategory hat mehrere Tags
+Bein anlegen wird ein Tag immer der Kategory der Rec zugeordnet
+
+
+Man filtert auf allen eben. z.B nur video, mit Tag fun. hier kommt dann alles was das Tag hat.
+Packt man eine Kategorie dazu, dann kriegt man noch weitere filterungen.
+

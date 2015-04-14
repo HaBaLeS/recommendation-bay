@@ -15,14 +15,6 @@ import net.projektfriedhof.recbay.model.DBObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 /**
  * @spring-bean="baseDao"
@@ -31,15 +23,14 @@ import org.springframework.util.StringUtils;
  * 
  * 
  */
-@Transactional
-public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>, InitializingBean {
+public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GenericBaseDaoImpl.class);
 
 	@Resource
 	private DataSource dataSource;
-	protected JdbcTemplate jdbcTemplate;
-	protected NamedParameterJdbcTemplate namedParamJdbcTemplate;
+	//protected JdbcTemplate jdbcTemplate;
+	//protected NamedParameterJdbcTemplate namedParamJdbcTemplate;
 
 	private String generatedKeyName = "id";
 
@@ -50,7 +41,6 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 */
 	@Override
-	@Transactional
 	public final void fullUpdate(T object) {
 
 		Object[] params;
@@ -76,7 +66,7 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 		params[i] = object.getId();
 		SQL.append(" where id = ? and deletedAt is null");
 
-		jdbcTemplate.update(SQL.toString(), params);
+		//jdbcTemplate.update(SQL.toString(), params);
 
 	}
 
@@ -87,8 +77,8 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * @param object
 	 * @return
 	 */
-	@Transactional
 	private Object getValueForField(String fn, T object) {
+        /*
 		try {
 			Method method = object.getClass().getMethod("get" + StringUtils.capitalize(fn), (Class<?>[]) null);
 			Object ret = method.invoke(object, (Object[]) null);
@@ -98,7 +88,8 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 			return ret;
 		} catch (Exception e) {
 			throw new RuntimeException("Reflection Code is Broken --- or DB does not match entity", e);
-		}
+		}*/
+        return null;
 	}
 
 
@@ -106,7 +97,7 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 * @param object
 	 */
-	@Transactional
+	//@Transactional
 	private void buildUpdateParams(T object) {
 
 		Method[] methods = object.getClass().getMethods();
@@ -125,7 +116,7 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 */
 	@Override
-	@Transactional
+	//@Transactional
 	public final void delete(T object) {
 //		T tee = loadById(object.getId(), (Class<T>) object.getClass());
 //		if(tee != null) {
@@ -139,9 +130,10 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 */
 	@Override
-	@Transactional
+	//@Transactional
 	public final T loadById(long id, Class<T> typ) {
-		return jdbcTemplate.queryForObject("select * from " + typ.getSimpleName() + " where id = ? and deletedAt is null", new Long[] {id}, new BeanPropertyRowMapper<T>(typ));
+		//return jdbcTemplate.queryForObject("select * from " + typ.getSimpleName() + " where id = ? and deletedAt is null", new Long[] {id}, new BeanPropertyRowMapper<T>(typ));
+        return null;
 	}
 
 
@@ -149,9 +141,9 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 */
 	@Override
-	@Transactional
+	//@Transactional
 	public final void execute(String sql, Object[] params) {
-		jdbcTemplate.update(sql, params);
+		//jdbcTemplate.update(sql, params);
 	}
 
 
@@ -159,9 +151,9 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 */
 	@Override
-	@Transactional
+	//@Transactional
 	public final void persist(DBObject toPersist) {
-		SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
+	/*	SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
 		String[] schemaTableName = new String[]{"public"};
 
 		insertActor.setSchemaName("public");
@@ -170,7 +162,7 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 
 		BeanPropertySqlParameterSource pms = new BeanPropertySqlParameterSource(toPersist);
 		Integer id = (Integer) insertActor.executeAndReturnKey(pms);
-		toPersist.setId(id);
+		toPersist.setId(id);*/
 	}
 
 
@@ -178,7 +170,7 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 */
 	@Override
-	@Transactional
+	//@Transactional
 	public final void persistAll(Class<T> typ, List<? extends DBObject> listToPersist) {
 
 		List<Integer> nextIds = getNextIds(listToPersist.size(), typ);
@@ -203,9 +195,9 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * @param typ
 	 * @param listToPersist
 	 */
-	@Transactional
+	//@Transactional
 	private void persistAllBatch(Class<T> typ, List<? extends DBObject> listToPersist) {
-		SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
+	/*	SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
 
 		if(listToPersist == null || listToPersist.size() == 0){
 			return;
@@ -221,7 +213,7 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 			dataArray[i] = new BeanPropertySqlParameterSource(bean);
 		}
 
-		insertActor.executeBatch(dataArray);
+		insertActor.executeBatch(dataArray);*/
 	}
 
 
@@ -236,11 +228,11 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 *            in the event of misconfiguration (such
 	 *            as failure to set an essential property) or if initialization fails.
 	 */
-	@Override
-	@Transactional
+	//@Transactional
 	public void afterPropertiesSet() throws Exception {
-		jdbcTemplate = new JdbcTemplate(dataSource);
-		namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+	/*	jdbcTemplate = new JdbcTemplate(dataSource);
+		namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);*/
+
 	}
 
 
@@ -248,12 +240,13 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 */
 	@Override
-	@Transactional
+	//@Transactional
 	public final List<T> list(long from, long pagesize, Class<T> typ) {
-		List<T> list = jdbcTemplate.query("select * from " + typ.getSimpleName() + " where  deletedAt is null order by id asc limit ? offset ?", new Long[] {
+		/*List<T> list = jdbcTemplate.query("select * from " + typ.getSimpleName() + " where  deletedAt is null order by id asc limit ? offset ?", new Long[] {
 				pagesize, from
 		}, new BeanPropertyRowMapper<T>(typ));
-		return list;
+		return list;*/
+    return null;
 	}
 
 
@@ -261,9 +254,10 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * 
 	 */
 	@Override
-	@Transactional
+	//@Transactional
 	public final long count(Class<T> typ) {
-		return jdbcTemplate.queryForObject("select count(*) from " + typ.getSimpleName() + " where  deletedAt is null", Integer.class);
+		//return jdbcTemplate.queryForObject("select count(*) from " + typ.getSimpleName() + " where  deletedAt is null", Integer.class);
+        return 0;
 	}
 
 	/**
@@ -272,10 +266,10 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * @param type
 	 * @return
 	 */
-	@Transactional
+	//@Transactional
 	public List<Integer> getNextIds(int amount, Class<T> type) {
 
-		//get sequence name
+	/*	//get sequence name
 		String sequenceCommand = jdbcTemplate.queryForObject("SELECT column_default from information_schema.columns where  column_name = 'id' AND table_name = '" + type.getName() + "' AND table_schema = 'public'", String.class);
 
 		if(sequenceCommand == null || sequenceCommand.trim().isEmpty() || !sequenceCommand.startsWith("nextval")) {
@@ -287,6 +281,8 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 			ids.add(jdbcTemplate.queryForObject("select " + sequenceCommand, Integer.class));
 		}
 		return ids;
+		*/
+        return null;
 	}
 
 
@@ -300,9 +296,10 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * @param Object[] with parameters
 	 * @return single result
 	 */
-	@Transactional
+//	@Transactional
 	public T getByQuery(String sql,Class clazz ,Object ... params) {
-		return (T) jdbcTemplate.queryForObject(sql, params, new BeanPropertyRowMapper<T>((Class<T>) clazz) );
+		//return (T) jdbcTemplate.queryForObject(sql, params, new BeanPropertyRowMapper<T>((Class<T>) clazz) );
+        return null;
 	}
 
 
@@ -310,9 +307,10 @@ public class GenericBaseDaoImpl<T extends DBObject> implements GenericBaseDao<T>
 	 * @see de.virtualsolution.leasemotion.whitelabel.configuration.service.dao.GenericBaseDao#count(java.lang.String, java.lang.Object[])
 	 */
 	@Override
-	@Transactional
+	//@Transactional
 	public long count(String SQL, Object... params) {
-		return jdbcTemplate.queryForObject(SQL, params, Integer.class);
+		//return jdbcTemplate.queryForObject(SQL, params, Integer.class);
+        return 0;
 	}
 
 
